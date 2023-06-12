@@ -143,22 +143,33 @@ void HelloworldPublisher::run()
 
     int msgsent = 0;
     char ch = 'y';
-    do
-    {
-        if (ch == 'y')
-        {
-            writer_->write(&st);
-            ++msgsent;
-            std::cout << "Sending sample, count=" << msgsent << ", send another sample?(y-yes,n-stop): ";
-        }
-        else if (ch == 'n')
-        {
-            std::cout << "Stopping execution " << std::endl;
-            break;
-        }
-        else
-        {
-            std::cout << "Command " << ch << " not recognized, please enter \"y/n\":";
-        }
-    } while (std::cin >> ch);
+    // We are going to publish 50 messages, no more
+
+    while(msgsent<300){
+        st.index(msgsent);
+        writer_->write(&st);
+        ++msgsent;
+        std::cout << "Sending sample, count=" << msgsent << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000)); // Sleep for one sec
+    }
+
+
+    // do
+    // {
+    //     if (ch == 'y')
+    //     {
+    //         writer_->write(&st);
+    //         ++msgsent;
+    //         std::cout << "Sending sample, count=" << msgsent << ", send another sample?(y-yes,n-stop): ";
+    //     }
+    //     else if (ch == 'n')
+    //     {
+    //         std::cout << "Stopping execution " << std::endl;
+    //         break;
+    //     }
+    //     else
+    //     {
+    //         std::cout << "Command " << ch << " not recognized, please enter \"y/n\":";
+    //     }
+    // } while (std::cin >> ch);
 }
